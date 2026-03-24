@@ -21,6 +21,9 @@ yarn-error.log*
 .env
 .env.local
 
+# Archives
+prayer-times-extension-*.zip
+
 # Logs
 logs
 *.log
