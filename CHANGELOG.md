@@ -14,6 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hijri Calendar display.
 - Qibla Direction indicator.
 
+## [1.0.2] - 2026-03-24
+
+### Added
+- Created a project README.md with features and roadmap.
+- Added a .gitignore file to exclude OS and IDE specific files.
+- Added GitHub Actions for automatic releases upon pushing tags.
+- Added .github/workflows/release.yml to automate ZIP creation and GitHub release assets.
+
 ## [1.0.1] - 2026-03-24
 
 ### Changed
@@ -21,12 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed the language toggle button from the user interface.
 - Cleaned up the CSS for better alignment in the action group.
 - Updated extension version to 1.0.1 in `manifest.json`.
-
-### Added
-- Added a project README.md with features and roadmap.
-- Added a .gitignore file to exclude OS and IDE specific files.
-- Added GitHub Actions for automatic releases upon pushing tags.
-- Added .github/workflows/release.yml to automate ZIP creation and GitHub release assets.
 
 ## [1.0.0] - 2026-03-24
 

@@ -37,6 +37,19 @@ The following features are scheduled for implementation in future updates:
 
 ## Installation
 
-1. Open your browser's extension management page (e.g., chrome://extensions, edge://extensions, etc.).
-2. Enable "Developer mode" in the top right corner.
-3. Click "Load unpacked" and select the project directory.
+### Option 1: Download from Releases (Recommended)
+1. Go to the [Releases](https://github.com/pramudya3/prayer-times-extension/releases) page.
+2. Download the latest `prayer-times-extension-vX.X.X.zip` file.
+3. Extract the ZIP file to a folder on your computer.
+4. Open your browser's extension management page (e.g., `chrome://extensions`, `edge://extensions`).
+5. Enable **Developer mode** in the top right corner.
+6. Click **Load unpacked** and select the folder you extracted the ZIP into.
+
+### Option 2: Clone the Repository
+1. Clone this repository to your local machine:
+   ```bash
+   git clone https://github.com/pramudya3/prayer-times-extension.git
+   ```
+2. Open your browser's extension management page.
+3. Enable **Developer mode**.
+4. Click **Load unpacked** and select the project directory.
