@@ -26,7 +26,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     const prayerName = alarm.name.split("-")[1];
     chrome.notifications.create({
       type: "basic",
-      iconUrl: "icons/icon128.png",
+      iconUrl: "assets/icons/icon128.png",
       title: `Prayer Time: ${prayerName}`,
       message: `It is now time for ${prayerName}.`,
       priority: 2,
@@ -41,7 +41,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 async function playNotificationSound() {
   if (!(await chrome.offscreen.hasDocument())) {
     await chrome.offscreen.createDocument({
-      url: "offscreen.html",
+      url: "pages/offscreen.html",
       reasons: ["AUDIO_PLAYBACK"],
       justification: "Play notification sound for prayer times",
     });
@@ -99,7 +99,7 @@ async function refreshTimingsAndAlarms() {
     const result = await response.json();
     const timings = result.data.timings;
 
-    localStorage.setItem("timings", JSON.stringify(timings)); // For popup sync if open
+    // Save to storage
     await chrome.storage.local.set({ timings });
     await scheduleAlarmsFromStorage();
   } catch (err) {

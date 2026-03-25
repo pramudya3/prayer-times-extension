@@ -7,6 +7,6 @@ chrome.runtime.onMessage.addListener((request) => {
 
 function playSound(url) {
   // Use local Adzan sound
-  const audio = new Audio(url || "./adzan-takbir.mp3");
+  const audio = new Audio(url || "../assets/sounds/adzan-takbir.mp3");
   audio.play();
 }

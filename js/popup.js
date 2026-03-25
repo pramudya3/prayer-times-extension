@@ -223,11 +223,11 @@ function notifMe() {
 
   if (Notification.permission === "granted") {
     // Play sound manually for test button
-    new Audio("./adzan-takbir.mp3").play();
+    new Audio("../assets/sounds/adzan-takbir.mp3").play();
 
     chrome.notifications.create({
       type: "basic",
-      iconUrl: "icons/icon128.png",
+      iconUrl: "../assets/icons/icon128.png",
       title: title,
       message: body,
       priority: 2,
@@ -238,11 +238,11 @@ function notifMe() {
     Notification.requestPermission().then((permission) => {
       if (permission === "granted") {
         // Play sound manually for test button
-        new Audio("./adzan-takbir.mp3").play();
+        new Audio("../assets/sounds/adzan-takbir.mp3").play();
 
         chrome.notifications.create({
           type: "basic",
-          iconUrl: "icons/icon128.png",
+          iconUrl: "../assets/icons/icon128.png",
           title: title,
           message: body,
           priority: 2,
