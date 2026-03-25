@@ -53,6 +53,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Bind events
   document.getElementById("getPrayerTimes").addEventListener("click", getLocation);
   document.getElementById("toggleTheme").addEventListener("click", toggleTheme);
+  document.getElementById("notifyMe").addEventListener("click", notifMe);
+
+  // Proactively request permission for background notifications
+  if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+    Notification.requestPermission();
+  }
 });
 
 function toggleTheme() {
@@ -99,6 +105,7 @@ async function success(position) {
 
   localStorage.setItem("latitude", latitude);
   localStorage.setItem("longitude", longitude);
+  chrome.storage.local.set({ latitude, longitude });
 
   try {
     const response = await fetch(
@@ -142,8 +149,13 @@ async function getPrayerTimes(latitude, longitude) {
     const data = await response.json();
     const timings = data.data.timings;
 
-    // Cache the timings object
+    // Cache the timings object for the popup
     localStorage.setItem("timings", JSON.stringify(timings));
+
+    // Support background notifications: Save to chrome.storage and notify background script
+    chrome.storage.local.set({ timings }, () => {
+      chrome.runtime.sendMessage({ type: "RESCHEDULE_ALARMS" });
+    });
 
     displayPrayersFromTimings(timings);
   } catch (err) {
@@ -174,5 +186,85 @@ function displayPrayersFromTimings(timings) {
     `
     )
     .join("");
+}
+
+function notifMe() {
+  if (!("Notification" in window)) {
+    alert("This browser does not support desktop notification");
+    return;
+  }
+
+  const savedTimings = localStorage.getItem("timings");
+  if (!savedTimings) {
+    new Notification("Please get prayer times first!");
+    return;
+  }
+
+  const timings = JSON.parse(savedTimings);
+  const prayers = [
+    { name: translations.fajr, time: timings.Fajr },
+    { name: translations.sunrise, time: timings.Sunrise },
+    { name: translations.dhuhr, time: timings.Dhuhr },
+    { name: translations.asr, time: timings.Asr },
+    { name: translations.maghrib, time: timings.Maghrib },
+    { name: translations.isha, time: timings.Isha },
+  ];
+
+  const now = new Date();
+  const next = findNextPrayer(prayers, now);
+
+  const title = next ? `Next Prayer: ${next.name}` : "All prayers for today have passed!";
+  const body = next ? `It will be at ${next.time}` : "Check back tomorrow!";
+
+  // if there are no permission granted, show ask for permission first
+  if (Notification.permission !== "granted") {
+    Notification.requestPermission();
+  }
+
+  if (Notification.permission === "granted") {
+    // Play sound manually for test button
+    new Audio("./adzan-takbir.mp3").play();
+
+    chrome.notifications.create({
+      type: "basic",
+      iconUrl: "icons/icon128.png",
+      title: title,
+      message: body,
+      priority: 2,
+      requireInteraction: true,
+      silent: false
+    });
+  } else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        // Play sound manually for test button
+        new Audio("./adzan-takbir.mp3").play();
+
+        chrome.notifications.create({
+          type: "basic",
+          iconUrl: "icons/icon128.png",
+          title: title,
+          message: body,
+          priority: 2,
+          requireInteraction: true,
+          silent: false
+        });
+      }
+    });
+  }
+}
+
+function findNextPrayer(prayers, now) {
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+  for (const p of prayers) {
+    const [hours, minutes] = p.time.split(":").map(Number);
+    const prayerMinutes = hours * 60 + minutes;
+
+    if (prayerMinutes > currentMinutes) {
+      return p;
+    }
+  }
+  return null;
 }
 

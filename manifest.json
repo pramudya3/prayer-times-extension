@@ -3,7 +3,10 @@
   "name": "Prayer Times",
   "version": "1.0.2",
   "description": "Accurate prayer times with automatic location detection.",
-  "permissions": ["notifications", "storage", "geolocation"],
+  "permissions": ["notifications", "storage", "geolocation", "alarms", "offscreen"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
