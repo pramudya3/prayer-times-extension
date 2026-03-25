@@ -5,14 +5,18 @@
   --text: #f1f5f9;
   --text-muted: #eef2f8;
   --card-border: rgba(255, 255, 255, 0.05);
+  --toggle-bg: rgba(255, 255, 255, 0.05);
+  --toggle-hover: rgba(255, 255, 255, 0.1);
 }
 
 .light-mode {
   --bg: #6acfd8;
-  --surface: #ffffff;
+  --surface: #e5e5e5;
   --text: #000000;
   --text-muted: #1e293b;
   --card-border: rgba(0, 0, 0, 0.1);
+  --toggle-bg: rgba(0, 0, 0, 0.05);
+  --toggle-hover: rgba(0, 0, 0, 0.1);
 }
 
 body {
@@ -93,11 +97,67 @@ h1 {
 }
 
 .prayer-card {
+  position: relative;
   background: var(--surface);
-  padding: 12px;
   border-radius: 12px;
   border: 1px solid var(--card-border);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.card-content {
+  padding: 12px;
   text-align: center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-options {
+  position: absolute;
+  right: -50px;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--toggle-bg);
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.prayer-card:hover .card-options {
+  right: 0;
+}
+
+.prayer-card:hover {
+  cursor: pointer;
+}
+
+.notif-toggle {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.notif-toggle:hover {
+  background: var(--toggle-hover);
+}
+
+.is-silent .notif-toggle i {
+  color: #ef4444;
+}
+
+@keyframes slide-left-options {
+  from {
+    right: -50px;
+  }
+  to {
+    right: 0;
+  }
 }
 
 .prayer-name {

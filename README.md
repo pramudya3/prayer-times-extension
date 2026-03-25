@@ -26,18 +26,19 @@ The Prayer Times extension automatically detects your location using your browse
 
 The following features are scheduled for implementation in future updates:
 
-| Feature               | Description                                                                | Status      |
-| --------------------- | -------------------------------------------------------------------------- | ----------- |
-| Desktop Notifications | Browser-based alerts for each prayer time.                                 | In Progress |
-| Next Prayer Countdown | A live timer showing the remaining time to the next prayer.                | Planned     |
-| Calculation Settings  | Options to choose between different calculation methods (e.g., MWL, ISNA). | Planned     |
-| Adhan Audio           | Optional audio alerts for prayer times with custom sound selection.        | Planned     |
-| Hijri Calendar        | Display of the current Hijri date alongside the Gregorian date.            | Planned     |
-| Badge Time            | Display the time for the next prayer on the extension icon badge.          | Planned     |
+| Feature               | Description                                                                | Status  |
+| --------------------- | -------------------------------------------------------------------------- | ------- |
+| Desktop Notifications | Browser-based alerts for each prayer time.                                 | Done    |
+| Next Prayer Countdown | A live timer showing the remaining time to the next prayer.                | Planned |
+| Calculation Settings  | Options to choose between different calculation methods (e.g., MWL, ISNA). | Planned |
+| Adhan Audio           | Optional audio alerts for prayer times with custom sound selection.        | Planned |
+| Hijri Calendar        | Display of the current Hijri date alongside the Gregorian date.            | Planned |
+| Badge Time            | Display the time for the next prayer on the extension icon badge.          | Planned |
 
 ## Installation
 
 ### Option 1: Download from Releases (Recommended)
+
 1. Go to the [Releases](https://github.com/pramudya3/prayer-times-extension/releases) page.
 2. Download the latest `prayer-times-extension-vX.X.X.zip` file.
 3. Extract the ZIP file to a folder on your computer.
@@ -46,6 +47,7 @@ The following features are scheduled for implementation in future updates:
 6. Click **Load unpacked** and select the folder you extracted the ZIP into.
 
 ### Option 2: Clone the Repository
+
 1. Clone this repository to your local machine:
    ```bash
    git clone https://github.com/pramudya3/prayer-times-extension.git
