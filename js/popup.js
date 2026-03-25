@@ -165,27 +165,62 @@ async function getPrayerTimes(latitude, longitude) {
   }
 }
 
-function displayPrayersFromTimings(timings) {
+async function displayPrayersFromTimings(timings) {
   const prayers = [
-    { name: translations.fajr, time: timings.Fajr },
-    { name: translations.sunrise, time: timings.Sunrise },
-    { name: translations.dhuhr, time: timings.Dhuhr },
-    { name: translations.asr, time: timings.Asr },
-    { name: translations.maghrib, time: timings.Maghrib },
-    { name: translations.isha, time: timings.Isha },
+    { name: translations.fajr, time: timings.Fajr, key: "Fajr" },
+    { name: translations.sunrise, time: timings.Sunrise, key: "Sunrise" },
+    { name: translations.dhuhr, time: timings.Dhuhr, key: "Dhuhr" },
+    { name: translations.asr, time: timings.Asr, key: "Asr" },
+    { name: translations.maghrib, time: timings.Maghrib, key: "Maghrib" },
+    { name: translations.isha, time: timings.Isha, key: "Isha" },
   ];
+
+  // Load notification settings
+  const data = await chrome.storage.local.get("notifSettings");
+  const settings = data.notifSettings || {};
 
   const prayerTimesDiv = document.getElementById("prayerTimes");
   prayerTimesDiv.innerHTML = prayers
-    .map(
-      (p) => `
-      <div class="prayer-card">
-        <div class="prayer-name">${p.name}</div>
-        <div class="prayer-time">${p.time}</div>
+    .map((p) => {
+      const isSilent = settings[p.key] === "silent";
+      return `
+      <div class="prayer-card ${isSilent ? "is-silent" : ""}" data-key="${p.key}">
+        <div class="card-content">
+          <div class="prayer-name">${p.name}</div>
+          <div class="prayer-time">${p.time}</div>
+        </div>
+        <div class="card-options">
+          <button class="notif-toggle" title="Toggle Sound">
+             <i class="fa ${isSilent ? "fa-bell-slash" : "fa-bell"}"></i>
+          </button>
+        </div>
       </div>
-    `
-    )
+    `;
+    })
     .join("");
+
+  // Add click listeners to toggles
+  document.querySelectorAll(".notif-toggle").forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      e.stopPropagation();
+      const card = btn.closest(".prayer-card");
+      const key = card.dataset.key;
+      const icon = btn.querySelector("i");
+
+      // Toggle state
+      const data = await chrome.storage.local.get("notifSettings");
+      const settings = data.notifSettings || {};
+      const newState = settings[key] === "silent" ? "active" : "silent";
+      settings[key] = newState;
+
+      // Update UI
+      icon.className = `fa ${newState === "silent" ? "fa-bell-slash" : "fa-bell"}`;
+      card.classList.toggle("is-silent", newState === "silent");
+
+      // Save
+      await chrome.storage.local.set({ notifSettings: settings });
+    });
+  });
 }
 
 function notifMe() {

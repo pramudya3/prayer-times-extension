@@ -19,21 +19,30 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 // Listen for alarms and trigger events
-chrome.alarms.onAlarm.addListener((alarm) => {
+chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === "daily-refresh") {
     refreshTimingsAndAlarms();
   } else if (alarm.name.startsWith("prayer-")) {
     const prayerName = alarm.name.split("-")[1];
+    
+    // Check notification settings for this prayer
+    const data = await chrome.storage.local.get("notifSettings");
+    const settings = data.notifSettings || {};
+    const isSilent = settings[prayerName] === "silent";
+
     chrome.notifications.create({
       type: "basic",
       iconUrl: "assets/icons/icon128.png",
       title: `Prayer Time: ${prayerName}`,
       message: `It is now time for ${prayerName}.`,
       priority: 2,
-      silent: false,
+      silent: isSilent,
       requireInteraction: true
     });
-    playNotificationSound();
+
+    if (!isSilent) {
+      playNotificationSound();
+    }
   }
 });
 
