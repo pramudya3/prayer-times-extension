@@ -14,6 +14,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hijri Calendar display.
 - Qibla Direction indicator.
 
+## [1.0.3] - 2026-03-25
+
+### Added
+- Per-prayer notification settings (active/silent toggles) directly on the prayer cards with slide-in animation.
+- Offscreen document integration for robust background audio playback.
+
+### Changed
+- Reorganized project structure: moved assets, css, js, and pages into dedicated subdirectories.
+- Improved service worker reliability, transitioning from localStorage to chrome.storage.local.
+- Bumped extension version to 1.0.3 in `manifest.json`.
+
 ## [1.0.2] - 2026-03-24
 
 ### Added
