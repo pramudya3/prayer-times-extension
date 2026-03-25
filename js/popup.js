@@ -53,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Bind events
   document.getElementById("getPrayerTimes").addEventListener("click", getLocation);
   document.getElementById("toggleTheme").addEventListener("click", toggleTheme);
-  document.getElementById("notifyMe").addEventListener("click", notifMe);
 
   // Proactively request permission for background notifications
   if (Notification.permission !== "granted" && Notification.permission !== "denied") {
@@ -143,8 +142,11 @@ async function getPrayerTimes(latitude, longitude) {
   }
 
   try {
+    const tune = ""
+    // const tune = "0,0,0,3,1,3,0,2,0";
+
     const response = await fetch(
-      `https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=20&tune=0,0,0,3,1,3,0,2,0`
+      `https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=20&tune=${tune}`
     );
     const data = await response.json();
     const timings = data.data.timings;
