@@ -25,6 +25,14 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   } else if (alarm.name.startsWith("prayer-")) {
     const prayerName = alarm.name.split("-")[1];
 
+    // Skip notifications if they are triggered too late (e.g., after laptop sleep/wake)
+    const now = Date.now();
+    const latenessThreshold = 10 * 60 * 1000; // 10 minutes
+    if (now - alarm.scheduledTime > latenessThreshold) {
+      console.log(`Skipping stale notification for ${prayerName}.`);
+      return;
+    }
+
     // Check notification settings for this prayer
     const data = await chrome.storage.local.get("notifSettings");
     const settings = data.notifSettings || {};

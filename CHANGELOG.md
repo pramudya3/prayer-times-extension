@@ -7,12 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
+## [1.0.4] - 2026-04-13
 
+### Added
 - Desktop Notifications for prayer times.
 - Next Prayer Countdown timer.
 - Hijri Calendar display.
 - Qibla Direction indicator.
+- Full adhan audio file for complete prayer calls.
+
+### Fixed
+- Prevented stale prayer notifications from triggering when the device wakes from sleep.
+
 
 ## [1.0.3] - 2026-03-25
 
